@@ -76,8 +76,23 @@ for epoch in range(epochs):
 
         total_loss += loss.item()
 
-
-    print(f"Epoch {epoch+1}/{epochs} Loss: {total_loss/len(train_loader)}")
+    # Validation loop
+    model.eval()
+    val_loss = 0
+    with torch.no_grad():
+        for images, ages, genders in val_loader:
+            images = images.to(device)
+            ages = ages.float().to(device)
+            genders = genders.to(device)
+            
+            pred_age, pred_gender = model(images)
+            pred_age = pred_age.squeeze()
+            
+            loss_age = age_loss_fn(pred_age, ages)
+            loss_gender = gender_loss_fn(pred_gender, genders)
+            val_loss += (loss_age + loss_gender).item()
+    
+    print(f"Epoch {epoch+1}/{epochs} Train Loss: {total_loss/len(train_loader):.4f} Val Loss: {val_loss/len(val_loader):.4f}")
 
 
 torch.save(model.state_dict(),"models/age_gender_model.pth")

@@ -8,7 +8,7 @@ class AgeGenderModel(nn.Module):
 
         super(AgeGenderModel, self).__init__()
 
-        base_model = models.resnet18(pretrained=True)
+        base_model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
 
         num_features = base_model.fc.in_features
 

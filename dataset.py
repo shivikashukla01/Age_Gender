@@ -19,7 +19,7 @@ class UTKFaceDataset(Dataset):
 
                 self.data.append((file, age, gender))
 
-            except:
+            except (ValueError, IndexError):
                 continue
 
 

@@ -15,7 +15,6 @@ model.load_state_dict(torch.load("models/age_gender_model.pth", map_location=dev
 
 model.eval()
 
-
 face_detector = cv2.CascadeClassifier(
     cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
 )
@@ -33,6 +32,9 @@ cap = cv2.VideoCapture(0)
 while True:
 
     ret, frame = cap.read()
+    
+    if not ret:
+        break
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
